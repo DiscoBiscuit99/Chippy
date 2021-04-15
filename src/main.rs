@@ -287,6 +287,8 @@ impl Chip8 {
 
     // 7XKK - ADD VX, byte. Set VX = VX + KK.
     fn opcode_7xkk(&mut self, opcode: u16) {
+        // FIXME: this opcode fails on test.
+
         let vx = (opcode & 0x0F00) >> 8;
         let byte = opcode & 0x00FF;
 
@@ -329,6 +331,8 @@ impl Chip8 {
 
     // 8XY4 - ADD VX, VY. Set VX = VX + VY, set VF = carry.
     fn opcode_8xy4(&mut self, opcode: u16) {
+        // FIXME: this opcode fails on test.
+
         let vx = (opcode & 0x0F00) >> 8;
         let vy = (opcode & 0x00F0) >> 4;
 
@@ -348,6 +352,8 @@ impl Chip8 {
 
     // 8XY5 - SUB VX, VY. Set VX = VX - VY, set VF = !carry.
     fn opcode_8xy5(&mut self, opcode: u16) {
+        // FIXME: this opcode fails on test.
+
         let vx = (opcode & 0x0F00) >> 8;
         let vy = (opcode & 0x00F0) >> 4;
 
@@ -407,6 +413,8 @@ impl Chip8 {
 
     // 9XY0 - SNE VX, VY. Skip next instruction if VX != VY.
     fn opcode_9xy0(&mut self, opcode: u16) {
+        // FIXME: this opcode fails on test.
+
         let vx = (opcode & 0x0F00) >> 8;
         let vy = (opcode & 0x00F0) >> 4;
 
@@ -620,7 +628,7 @@ fn main() {
 
     let mut chippy = Chip8::initialize();
     
-    chippy.load_rom("test_roms/test_opcodes.ch8");
+    chippy.load_rom("test_roms/test_opcode.ch8");
 
     let event_loop = EventLoop::new();
     let mut input = WinitInputHelper::new();
@@ -687,6 +695,11 @@ fn main() {
             if input.key_pressed(VirtualKeyCode::Escape) || input.quit() {
                 *control_flow = ControlFlow::Exit;
                 return ()
+            }
+            
+            // resize the window
+            if let Some(size) = input.window_resized() {
+                pixels.resize(size.width, size.height);
             }
 
             // if a key is pressed, set the corresponding keypad mappings.
