@@ -329,8 +329,6 @@ impl Chip8 {
 
     // 8XY4 - ADD VX, VY. Set VX = VX + VY, set VF = carry.
     fn opcode_8xy4(&mut self, opcode: u16) {
-        // FIXME: this opcode fails on test.
-
         let vx = (opcode & 0x0F00) >> 8;
         let vy = (opcode & 0x00F0) >> 4;
 
@@ -350,8 +348,6 @@ impl Chip8 {
 
     // 8XY5 - SUB VX, VY. Set VX = VX - VY, set VF = !carry.
     fn opcode_8xy5(&mut self, opcode: u16) {
-        // FIXME: this opcode fails on test.
-
         let vx = (opcode & 0x0F00) >> 8;
         let vy = (opcode & 0x00F0) >> 4;
 
@@ -411,8 +407,6 @@ impl Chip8 {
 
     // 9XY0 - SNE VX, VY. Skip next instruction if VX != VY.
     fn opcode_9xy0(&mut self, opcode: u16) {
-        // FIXME: this opcode fails on test.
-
         let vx = (opcode & 0x0F00) >> 8;
         let vy = (opcode & 0x00F0) >> 4;
 
