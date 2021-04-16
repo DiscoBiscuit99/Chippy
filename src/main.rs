@@ -287,14 +287,12 @@ impl Chip8 {
 
     // 7XKK - ADD VX, byte. Set VX = VX + KK.
     fn opcode_7xkk(&mut self, opcode: u16) {
-        // FIXME: this opcode fails on test.
-
         let vx = (opcode & 0x0F00) >> 8;
         let byte = opcode & 0x00FF;
 
         // wrap the value if it exceeds 8 bits.
         self.registers[vx as usize] = 
-            ((self.registers[vx as usize] as u16 + byte) % 0xFF) as u8;
+            ((self.registers[vx as usize] as u16 + byte) % 256) as u8;
     }
 
     // 8XY0 - LD VX, VY. Set VX = VY.
@@ -336,7 +334,7 @@ impl Chip8 {
         let vx = (opcode & 0x0F00) >> 8;
         let vy = (opcode & 0x00F0) >> 4;
 
-        let sum = (self.registers[vx as usize] as u16 + self.registers[vy as usize] as u16) % 0xFF;
+        let sum = (self.registers[vx as usize] as u16 + self.registers[vy as usize] as u16) % 256;
 
         // toggle the carry bit in register VF if the 
         // sum would overflow 8 bits.
@@ -368,7 +366,7 @@ impl Chip8 {
 
             // otherwise get the difference and wrap around.
             diff = self.registers[vy as usize] - self.registers[vx as usize];
-            self.registers[vx as usize] = 255 - diff;
+            self.registers[vx as usize] = (256 - diff as u16) as u8;
         }
     }
 
