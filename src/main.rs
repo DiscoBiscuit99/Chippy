@@ -16,15 +16,16 @@
 /// +-+-+-+-+    +-+-+-+-+
 /// ```
 
-use std::time::Duration;
-
-use pixels::{ Pixels, SurfaceTexture };
-
 use winit::dpi::LogicalSize;
 use winit::event::{ Event, VirtualKeyCode };
 use winit::event_loop::{ ControlFlow, EventLoop };
 use winit::window::WindowBuilder;
+
 use winit_input_helper::WinitInputHelper;
+
+use pixels::{ Pixels, SurfaceTexture };
+
+use std::time::Duration;
 
 mod chip8;
 use chip8::Chip8;
@@ -211,6 +212,6 @@ fn main() {
 
         // request a redraw and sleep for some duration
         window.request_redraw(); 
-        std::thread::sleep(Duration::from_millis(1000/60));
+        //std::thread::sleep(Duration::from_millis(1000/60));
     });
 }

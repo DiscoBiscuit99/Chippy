@@ -430,20 +430,21 @@ impl Chip8 {
             for col in 0..8 {
                 let sprite_pixel = sprite_byte & (0x80 >> col);
 
-                let mut screen_pixel = 
-                    self.display_memory[(((y_pos + row as u32) * VIDEO_WIDTH + (x_pos + col)) % 0xFFFFFFFF) as usize] as u32;
+                let xy_to_index = (
+                    ((y_pos + row as u32) * VIDEO_WIDTH + (x_pos + col)) as usize
+                ) % self.display_memory.len();
+
+                let mut screen_pixel = self.display_memory[xy_to_index];
 
                 // if both the sprite pixel and the screen pixel is on: collision
                 if sprite_pixel != 0 { 
-                    if screen_pixel == 0xFFFFFFFF { 
+                    if screen_pixel == 0xFF { 
                         self.registers[0xF] = 1;
                     }
 
                     // effectively XOR with the sprite pixel
-                    screen_pixel ^= 0xFFFFFFFF;
-                    self.display_memory[
-                        ((y_pos + row as u32) * VIDEO_WIDTH + (x_pos + col)) as usize
-                    ] = screen_pixel as u8; // FIXME: should be u32?
+                    screen_pixel ^= 0xFF;
+                    self.display_memory[xy_to_index] = screen_pixel;
                 }
             }
         }
